@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as contactActions from '../../actions/contactActions';
 
-export class Paginator extends React.Component {
+class Paginator extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {};
@@ -24,8 +24,8 @@ export class Paginator extends React.Component {
   left() {
     const { offset } = this.props.contacts;
     return (
-      <li className={ offset === 0 ? 'disabled' : '' }>
-        <a onClick={ this.back }>
+      <li className={offset === 0 ? 'disabled' : ''}>
+        <a onClick={this.back}>
           <i className="material-icons">chevron_left</i>
         </a>
       </li>
@@ -35,8 +35,8 @@ export class Paginator extends React.Component {
   right() {
     const { offset, limit, count } = this.props.contacts;
     return (
-      <li className={ offset + limit >= count ? 'disabled' : '' }>
-        <a onClick={ this.advance }>
+      <li className={offset + limit >= count ? 'disabled' : ''}>
+        <a onClick={this.advance}>
           <i className="material-icons">chevron_right</i>
         </a>
       </li>
@@ -46,7 +46,7 @@ export class Paginator extends React.Component {
   render() {
     const { offset, limit, count } = this.props.contacts;
     return (
-      <div className="center-align">
+      <div className="center-align disable-selection">
         <ul className="pagination">
           {this.left()}
           <li><a>Page {offset / limit + 1}</a></li>

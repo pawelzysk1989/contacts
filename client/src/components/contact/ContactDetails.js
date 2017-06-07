@@ -8,7 +8,7 @@ import toastr from 'toastr';
 
 const REDUX_FORM_NAME = 'REDUX_FORM_CONTACT';
 
-export class ContactDetails extends React.Component {
+class Contact extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -16,6 +16,18 @@ export class ContactDetails extends React.Component {
       deleting: false,
       contactExixts: false
     };
+  }
+
+  componentDidMount() {
+    if (this.props.params.id) {
+      this.updateForm(this.props.params.id); 
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.params.id !== this.props.params.id) {
+      this.updateForm(nextProps.params.id);
+    }
   }
 
   updateForm(id) {
@@ -46,22 +58,10 @@ export class ContactDetails extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.params.id !== this.props.params.id) {
-      this.updateForm(nextProps.params.id) 
-    }
-  }
-
-  componentDidMount() {
-    if (this.props.params.id) {
-      this.updateForm(this.props.params.id) 
-    }
-  }
-
   delete() {
     this.setState( {deleting: true} );
-    this.props.actions.deleteContact(this.props._id)
-      .then((response) => {
+    this.props.actions.deleteContact(this.props.params.id)
+      .then(() => {
         this.setState( {deleting: false} );
         toastr.success('Contact deleted successfully');
       })
@@ -79,11 +79,11 @@ export class ContactDetails extends React.Component {
   deleteButton() {
     const classname = this.state.deleting ? 'waves-effect waves-light btn disabled' : 'waves-effect waves-light btn';
     if (this.state.contactExixts ) {
-      return <a className={classname} onClick={this.delete.bind(this)}><i className="material-icons right">delete</i>Delete</a>
+      return <a className={classname} onClick={this.delete.bind(this)}><i className="material-icons right">delete</i>Delete</a>;
     }
   }
 
-  mySubmit({_id, name, surname, email, phone, image}) {
+  mySubmit({name, surname, email, phone, image}) {
     const errors = {};
 
     if (fieldIsEmpty(name)) {
@@ -99,15 +99,16 @@ export class ContactDetails extends React.Component {
     } else if (!validEmail(email)) {
       errors.email = "Incorrect Email";
     }
-
-    for(let error in errors) {
-       throw new SubmissionError(errors);
+    
+    for (let i=0; i < errors.length; i++) {
+      throw new SubmissionError(errors);
     }
+
     this.setState( {saving: true} );
 
     if (this.state.contactExixts) {
-      this.props.actions.updateContact({ _id, contact: {name, surname, email, phone, image} } )
-      .then((response) => {
+      this.props.actions.updateContact({ _id: this.props.params.id, contact: {name, surname, email, phone, image} } )
+      .then(() => {
         this.setState( {saving: false} );
         toastr.success('Contact saved successfully');
         browserHistory.push('/');
@@ -118,7 +119,7 @@ export class ContactDetails extends React.Component {
       });
     } else {
       this.props.actions.createContact( {name, surname, email, phone, image} )
-      .then((response) => {
+      .then(() => {
         this.setState( {saving: false} );
         toastr.success('Contact saved successfully');
       })
@@ -156,11 +157,15 @@ export class ContactDetails extends React.Component {
   }
 }
 
-ContactDetails.propTypes = {
-  contact: PropTypes.object
+Contact.propTypes = {
+  contact: PropTypes.object,
+  dispatch: PropTypes.func,
+  actions: PropTypes.object,
+  params: PropTypes.object,
+  handleSubmit: PropTypes.func
 };
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps() {
   let contact = {_id: "", name: "", surname: "", email: "", phone: "", image: "" };
   return {
     initialValues: contact
@@ -173,9 +178,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-ContactDetails = reduxForm({
+let ContactDetails = reduxForm({
   form: REDUX_FORM_NAME  
-})(ContactDetails);
+})(Contact);
 
 ContactDetails = connect(mapStateToProps, mapDispatchToProps)(ContactDetails);
 
@@ -191,13 +196,13 @@ const renderField = ( { type, label, input, meta: {touched, error} } ) => {
       { touched && error && <span className="has-error">{error}</span> }
     </div>
   );
-}
+};
 
 const fieldIsEmpty = (fieldValue) => {
   return fieldValue.trim().length === 0;
-}
+};
 
 function validEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }

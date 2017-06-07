@@ -56,7 +56,7 @@ export function updateContact(data) {
   return function (dispatch) {
     dispatch(beginAjaxCall());
     return axios.put(`${ROOT_URL}/updateContact`, data)
-      .then(response => {
+      .then(() => {
         dispatch(updateContactSuccess(data));
       })
       .catch(error => {

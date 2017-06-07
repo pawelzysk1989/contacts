@@ -5,7 +5,7 @@ import Paginator from './Paginator';
 import {bindActionCreators} from 'redux';
 import * as contactActions from '../../actions/contactActions';
 
-export class Contacts extends React.Component {
+class Contacts extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {};

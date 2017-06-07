@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import Header from "./common/Header";
-import Preloader from './common/Preloader'
 
 class App extends React.Component {
   render(){

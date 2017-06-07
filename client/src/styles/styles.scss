@@ -1,5 +1,4 @@
 
-
 label {
   color: black !important;
   font-weight: bold;
@@ -95,6 +94,14 @@ nav .brand-logo {
     width: 100%;
     margin-bottom: 10px;
   }
+}
+
+.disable-selection {
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer */
+   -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
+  -webkit-user-select: none; /* Chrome, Safari, and Opera */
+  -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
 }
 
 

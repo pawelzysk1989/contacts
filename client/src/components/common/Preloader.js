@@ -13,7 +13,7 @@ export default function(ComposedComponent, time = 1000) {
 
     whatToRender() {
       if (!this.state.displayPreloader) {
-        return <ComposedComponent {...this.props}/>
+        return <ComposedComponent {...this.props}/>;
       }
       if (this.props.loading) {
         setTimeout(() => {
@@ -33,13 +33,13 @@ export default function(ComposedComponent, time = 1000) {
         <div className="preloader-wrapper big active loader">
           <div className="spinner-layer spinner-blue-only">
             <div className="circle-clipper left">
-              <div className="circle"></div>
+              <div className="circle"/>
             </div>
             <div className="gap-patch">
-              <div className="circle"></div>
+              <div className="circle"/>
             </div>
             <div className="circle-clipper right">
-              <div className="circle"></div>
+              <div className="circle"/>
             </div>
           </div>
         </div>

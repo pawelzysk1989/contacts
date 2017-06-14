@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import * as contactActions from '../../actions/contactActions';
 import {browserHistory} from 'react-router';
 import { Field, reduxForm, SubmissionError, change } from 'redux-form';
+import RenderField from '../common/RenderField';
 import toastr from 'toastr';
 
 const REDUX_FORM_NAME = 'REDUX_FORM_CONTACT';
@@ -85,22 +86,21 @@ class Contact extends React.Component {
 
   mySubmit({name, surname, email, phone, image}) {
     const errors = {};
-
     if (fieldIsEmpty(name)) {
-      errors.name = "Field is Required";
+      errors.name = "Name is Required";
     } else if (fieldIsEmpty(surname)) {
-      errors.surname = "Field is Required";
+      errors.surname = "Surname is Required";
     } else if (fieldIsEmpty(email)) {
-      errors.email = "Field is Required";
+      errors.email = "Email is Required";
     } else if (fieldIsEmpty(phone)) {
-      errors.phone = "Field is Required";
+      errors.phone = "Phone is Required";
     } else if (fieldIsEmpty(image)) {
-      errors.image = "Field is Required";
+      errors.image = "Image is Required";
     } else if (!validEmail(email)) {
       errors.email = "Incorrect Email";
     }
-    
-    for (let i=0; i < errors.length; i++) {
+
+    if (Object.keys(errors).length > 0) {
       throw new SubmissionError(errors);
     }
 
@@ -138,11 +138,11 @@ class Contact extends React.Component {
     const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit(this.mySubmit.bind(this))}>
-        <Field name="name" label="First Name" component={renderField} type="text"/>
-        <Field name="surname" label="Second Name" component={renderField} type="text"/>
-        <Field name="email" label="Email" component={renderField} type="text"/>
-        <Field name="phone" label="Phone" component={renderField} type="text"/>
-        <Field name="image" label="Image" component={renderField} type="text"/>
+        <Field name="name" label="First Name" component={RenderField} type="text"/>
+        <Field name="surname" label="Second Name" component={RenderField} type="text"/>
+        <Field name="email" label="Email" component={RenderField} type="text"/>
+        <Field name="phone" label="Phone" component={RenderField} type="text"/>
+        <Field name="image" label="Image" component={RenderField} type="text"/>
         <button 
           type="submit"
           disabled={this.state.saving}
@@ -188,15 +188,6 @@ export default ContactDetails;
 
 
 // HELPER METHODS
-const renderField = ( { type, label, input, meta: {touched, error} } ) => {
-  return (
-    <div className="input-row">
-      <label>{label}</label>
-      <input {...input} type={type}/>
-      { touched && error && <span className="has-error">{error}</span> }
-    </div>
-  );
-};
 
 const fieldIsEmpty = (fieldValue) => {
   return fieldValue.trim().length === 0;

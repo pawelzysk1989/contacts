@@ -8,8 +8,8 @@ import {default as Preloader} from './components/common/Preloader';
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={Preloader(Contacts, 0)}/>
-    <Route path="contact" component={ContactDetails}/>
-    <Route path="contact/:id" component={ContactDetails}/>
+    <IndexRoute component={Preloader(Contacts)}/>
+    <Route path="contact" component={Preloader(ContactDetails)}/>
+    <Route path="contact/:id" component={Preloader(ContactDetails)}/>
   </Route>
 );

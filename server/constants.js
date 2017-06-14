@@ -1,3 +1,3 @@
 module.exports = {
-    CONTACTS_TO_ADD : 150
+    CONTACTS_TO_ADD : 35
 }

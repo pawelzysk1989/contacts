@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import {connect} from 'react-redux';
 
-export default function(ComposedComponent, time = 1000) {
+export default function(ComposedComponent, time = 0) {
 
   class Preloader extends React.Component {
     constructor(props, context) {

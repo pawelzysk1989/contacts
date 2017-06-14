@@ -10,7 +10,9 @@ const seed = require('./seed.js');
 
 // DB Setup
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/contacts');
+
+const databaseUrl = process.env.DATABASEURL || 'mongodb://localhost/contacts';
+mongoose.connect(databaseUrl);
 
 // App Setup
 app.use(morgan('combined'));

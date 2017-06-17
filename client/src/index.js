@@ -14,10 +14,15 @@ import 'material-design-icons/iconfont/material-icons.css';
 import './styles/styles.scss';
 import 'toastr/build/toastr.min.css';
 
-$(".button-collapse").sideNav();
+$(document).ready(function(){
+  const buttonCollapse = $('.button-collapse');
+    buttonCollapse.sideNav();
+    $('#mobile-demo a').on('click', function() {
+      buttonCollapse.sideNav('hide');
+    });
+});
 
 const store = configureStore();
-
 store.dispatch(loadContacts());
 
 // Create an enhanced history that syncs navigation events with the store

@@ -5,7 +5,10 @@ import path from 'path';
 
 export default {
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json']
+    extensions: ['', '.js', '.jsx', '.json'],
+    alias: {
+      'jquery': path.join( __dirname, 'node_modules/jquery/dist/jquery' ),
+    }
   },
   debug: true,
   devtool: 'eval-source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
@@ -36,7 +39,13 @@ export default {
         collapseWhitespace: true
       },
       inject: true
-    })
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery",
+      Hammer: "hammerjs/hammer"
+  }),
   ],
   module: {
     loaders: [

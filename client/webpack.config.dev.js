@@ -45,7 +45,7 @@ export default {
       jQuery: "jquery",
       "window.jQuery": "jquery",
       Hammer: "hammerjs/hammer"
-  }),
+    }),
   ],
   module: {
     loaders: [
